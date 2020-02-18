@@ -489,6 +489,27 @@ def get_course_uuid_for_course(course_run_key):
     return None
 
 
+def get_program_details_for_course_run(course_run_key):
+    user, catalog_integration = check_catalog_integration_and_get_user(error_message_field='Course Program Details')
+    if user:
+        api = create_catalog_api_client(user)
+        run_cache_key = '{base}.course_run.{course_run_key}.programs'.format(
+            base=catalog_integration.CACHE_KEY,
+            course_run_key=course_run_key
+        )
+        course_run_program_data = get_edx_api_data(
+            catalog_integration,
+            'course_runs',
+            resource_id=text_type(course_run_key),
+            api=api,
+            cache_key=run_cache_key if catalog_integration.is_cache_enabled else None,
+            long_term_cache=True,
+            many=False,
+            querystring='fields=programs'
+        )
+        return course_run_program_data.get('programs', [])
+
+
 def get_pseudo_session_for_entitlement(entitlement):
     """
     This function is used to pass pseudo-data to the front end, returning a single session, regardless of whether that
