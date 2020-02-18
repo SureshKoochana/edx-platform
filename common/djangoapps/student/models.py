@@ -507,6 +507,7 @@ class UserProfile(models.Model):
     profile_image_uploaded_at = models.DateTimeField(null=True, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d*$', message="Phone number can only contain numbers.")
     phone_number = models.CharField(validators=[phone_regex], blank=True, null=True, max_length=50)
+
     @property
     def has_profile_image(self):
         """
