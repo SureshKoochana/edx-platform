@@ -128,7 +128,8 @@ function() {
                 min: this.config.startTime,
                 max: this.config.endTime,
                 slide: this.videoProgressSlider.onSlide,
-                stop: this.videoProgressSlider.onStop
+                stop: this.videoProgressSlider.onStop,
+                step: 5
             });
 
         this.videoProgressSlider.sliderProgress = this.videoProgressSlider
